@@ -1,6 +1,6 @@
 import time
-from database_operations import execute_query_fetchall, execute_query_fetchone
-from database_operations import execute_query_get, execute_query_insert
+from .database_operations import execute_query_fetchall, execute_query_fetchone
+from .database_operations import execute_query_get, execute_query_insert
 
 
 class Course:
