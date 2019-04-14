@@ -1,12 +1,16 @@
 import sqlite3
 conn = sqlite3.connect('quiz-portal.db')
+conn.execute('PRAGMA foreign_keys = 1')
 
 cursor = conn.cursor()
 
 def execute_query(query):
 
-    cursor.execute(query)
-    conn.commit()
+    try:
+        cursor.execute(query)
+        conn.commit()
+    except Exception as e:
+        return str(e)
 
 def createFacultyTable():
     query = """
@@ -16,18 +20,18 @@ def createFacultyTable():
         dept TEXT
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createCourseTable():
     query = """
     CREATE TABLE IF NOT EXISTS course (
         cid TEXT PRIMARY KEY,
         cname TEXT,
-        ic_id TEXT,
+        ic_id INTEGER,
         FOREIGN KEY (ic_id) REFERENCES faculty(fid)
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createQuizTable():
     query = """
@@ -36,13 +40,13 @@ def createQuizTable():
         fid INTEGER,
         cid TEXT,
         qname TEXT,
-        start TIMESTAMP,
-        end TIMESTAMP,
+        start TEXT,
+        end TEXT,
         FOREIGN KEY (fid) REFERENCES faculty(fid),
         FOREIGN KEY (cid) REFERENCES course(cid)
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createProblemTable():
     query = """
@@ -55,13 +59,13 @@ def createProblemTable():
         option3 TEXT,
         option4 TEXT,
         ans TEXT,
-        postive INTEGER,
+        positive INTEGER,
         negative INTEGER,
         FOREIGN KEY (qid) REFERENCES quiz(qid)
 
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createStudentTable():
     query = """
@@ -70,7 +74,7 @@ def createStudentTable():
         sname TEXT
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createFacultyCourseTable():
     query = """
@@ -81,7 +85,7 @@ def createFacultyCourseTable():
         FOREIGN KEY (cid) REFERENCES course(cid)
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createStudentCourseTable():
     query = """
@@ -92,7 +96,7 @@ def createStudentCourseTable():
         FOREIGN KEY (cid) REFERENCES course(cid)
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 
 def createResponseTable():
@@ -105,7 +109,7 @@ def createResponseTable():
         FOREIGN KEY (pid) REFERENCES problem(pid)
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 def createMarklistTable():
     query = """
@@ -117,7 +121,7 @@ def createMarklistTable():
         FOREIGN KEY (qid) REFERENCES quiz(qid)
     );
     """
-    execute_query(query)
+    return execute_query(query)
 
 
 createCourseTable()
