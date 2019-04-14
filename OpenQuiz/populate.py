@@ -1,28 +1,31 @@
 import time
-from insert_values import create_course, create_faculty, create_problem, create_quiz, create_student
+from .student import Student
+from .quiz import Quiz
+from .course import Course
+from .faculty import Faculty
 
-# create_student('2017A7PS1398H', 'Ujjwal Raizada')
-# create_student('2017A7PS0277H', 'Satyam Mani')
-# create_student('2017A7PS1715H', 'Prakhar Goenka')
-# create_student('2017A7PS0218H', 'Daksh Yashlaha')
+# Student.create_student('2017A7PS1398H', 'Ujjwal Raizada')
+# Student.create_student('2017A7PS0277H', 'Satyam Mani')
+# Student.create_student('2017A7PS1715H', 'Prakhar Goenka')
+# Student.create_student('2017A7PS0218H', 'Daksh Yashlaha')
 
-# create_faculty('Lov Kumar', 'CS')
-# create_faculty('T. Ray', 'CS')
-# create_faculty('NL Bhanu Murty', 'CS')
-# create_faculty('PKT', 'PHY')
+# Faculty.create_faculty('Lov Kumar', 'CS')
+# Faculty.create_faculty('T. Ray', 'CS')
+# Faculty.create_faculty('NL Bhanu Murty', 'CS')
+# Faculty.create_faculty('PKT', 'PHY')
 
-# create_course('CS F211', 'DSA', 3)
-# create_course('CS F212', 'DBMS', 1)
-# create_course('PHY F111', 'PHYSICS', 4)
+# Course.create_course('CS F211', 'DSA', 3)
+# Course.create_course('CS F212', 'DBMS', 1)
+# Course.create_course('PHY F111', 'PHYSICS', 4)
 
-# create_quiz(3, 'CS F211', 'Graph', time.time(), time.time() + 600)
-# create_quiz(1, 'CS F212', 'SQL Queries', time.time(), time.time() + 600)
-# create_quiz(1, 'CS F212', 'SQL Queries 2', time.time(), time.time() + 600)
+# Quiz.create_quiz(3, 'CS F211', 'Graph', time.time(), time.time() + 600)
+# Quiz.create_quiz(1, 'CS F212', 'SQL Queries', time.time(), time.time() + 600)
+# Quiz.create_quiz(1, 'CS F212', 'SQL Queries 2', time.time(), time.time() + 600)
 
 
-# print(create_problem(1, 'Number of edges in a tree?', 'n', 'n - 1', 'n + 1', '2n', 'B', 3, 1))
-# print(create_problem(1, 'Number of edges in a single cycle?', 'n', 'n - 1', 'n + 1', '2n', 'A', 3, 1))
-# print(create_problem(1, 'Number of edges in a single node graph?', 'n', '0', 'n + 1', '2n', 'B', 3, 1))
+# print(Quiz.create_problem(1, 'Number of edges in a tree?', 'n', 'n - 1', 'n + 1', '2n', 'B', 3, 1))
+# print(Quiz.create_problem(1, 'Number of edges in a single cycle?', 'n', 'n - 1', 'n + 1', '2n', 'A', 3, 1))
+# print(Quiz.create_problem(1, 'Number of edges in a single node graph?', 'n', '0', 'n + 1', '2n', 'B', 3, 1))
 
 # A = [
 #     (1, 'A'),
@@ -30,7 +33,7 @@ from insert_values import create_course, create_faculty, create_problem, create_
 #     (3, 'B'),
 # ]
 
-# print(insert_response(1, '2017A7PS1398H', A))
+# print(Quiz.insert_response(1, '2017A7PS1398H', A))
 
 
 

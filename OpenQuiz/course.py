@@ -39,6 +39,7 @@ class Course:
             return True
         else:
             return False
+
     @staticmethod
     def is_faculty_in_course(fid, cid):
 
