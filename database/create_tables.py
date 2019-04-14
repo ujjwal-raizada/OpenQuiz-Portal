@@ -104,8 +104,10 @@ def createResponseTable():
     CREATE TABLE IF NOT EXISTS response (
         sid TEXT,
         pid INTEGER,
+        qid INTEGER,
         option TEXT,
         FOREIGN KEY (sid) REFERENCES student(sid),
+        FOREIGN KEY (qid) REFERENCES quiz(qid),
         FOREIGN KEY (pid) REFERENCES problem(pid)
     );
     """
