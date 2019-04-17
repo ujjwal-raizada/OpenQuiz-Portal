@@ -50,3 +50,19 @@ class Course:
             return True
         else:
             return False
+
+    @staticmethod
+    def insert_faculty_in_course(fid, cid):
+
+        query = 'INSERT into facultycourse(fid, cid) VALUES(?, ?)'
+        values = (fid, cid)
+        result = execute_query_insert(query, values)
+        return result
+
+    @staticmethod
+    def insert_student_in_course(sid, cid):
+
+        query = 'INSERT into studentcourse(sid, cid) VALUES(?, ?)'
+        values = (sid, cid)
+        result = execute_query_insert(query, values)
+        return result

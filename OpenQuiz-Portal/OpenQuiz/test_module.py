@@ -40,3 +40,23 @@ def execute_query_insert(query, values):
         return (True,)
     except Exception as e:
         return (False, e)
+
+
+
+def insert_faculty_in_course(fid, cid):
+
+    query = 'INSERT into facultycourse(fid, cid) VALUES(?, ?)'
+    values = (fid, cid)
+    result = execute_query_insert(query, values)
+    return result
+
+
+def insert_student_in_course(sid, cid):
+
+    query = 'INSERT into studentcourse(sid, cid) VALUES(?, ?)'
+    values = (sid, cid)
+    result = execute_query_insert(query, values)
+    return result
+
+print(insert_faculty_in_course(1, 'cs f212'))
+print(insert_student_in_course('2017A7PS1398H', 'cs f212'))

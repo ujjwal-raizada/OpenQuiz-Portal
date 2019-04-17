@@ -27,3 +27,14 @@ class Faculty:
             return True
         else:
             return False
+
+    @staticmethod
+    def get_faculty_id(email):
+
+        query = 'SELECT fid from faculty where email = ?'
+        values = (email,)
+        result = execute_query_fetchone(query, values)
+        if (result != None):
+            return (True, result[0])
+        else:
+            return (False,)
