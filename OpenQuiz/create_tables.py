@@ -17,6 +17,7 @@ def createFacultyTable():
     CREATE TABLE IF NOT EXISTS faculty (
         fid INTEGER PRIMARY KEY,
         fname TEXT,
+        email TEXT UNIQUE,
         dept TEXT
     );
     """

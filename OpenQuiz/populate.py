@@ -9,10 +9,10 @@ from .faculty import Faculty
 # Student.create_student('2017A7PS1715H', 'Prakhar Goenka')
 # Student.create_student('2017A7PS0218H', 'Daksh Yashlaha')
 
-# Faculty.create_faculty('Lov Kumar', 'CS')
-# Faculty.create_faculty('T. Ray', 'CS')
-# Faculty.create_faculty('NL Bhanu Murty', 'CS')
-# Faculty.create_faculty('PKT', 'PHY')
+# print(Faculty.create_faculty('Lov Kumar', 'lov@hyderabad.bits-pilani.ac.in', 'CS'))
+# print(Faculty.create_faculty('T. Ray', 'rayt', 'CS'))
+# print(Faculty.create_faculty('NL Bhanu Murty','bhanu', 'CS'))
+# print(Faculty.create_faculty('PKT','pkt@hyderabad.bits-pilani.ac.in', 'PHY'))
 
 # Course.create_course('CS F211', 'DSA', 3)
 # Course.create_course('CS F212', 'DBMS', 1)

@@ -6,10 +6,10 @@ from .database_operations import execute_query_get, execute_query_insert
 class Faculty:
 
     @staticmethod
-    def create_faculty(fname, dept):
+    def create_faculty(fname, email, dept):
         
-        query = 'INSERT INTO faculty(fname, dept) VALUES(?, ?)'
-        values = (fname, dept)
+        query = 'INSERT INTO faculty(fname, email, dept) VALUES(?, ?, ?)'
+        values = (fname, email, dept)
         return execute_query_insert(query, values)
 
     @staticmethod
