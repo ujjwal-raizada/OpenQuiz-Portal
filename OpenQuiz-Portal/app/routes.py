@@ -1,3 +1,6 @@
+import os
+from OpenQuiz.student import Student
+
 from flask import render_template, flash, redirect, request, url_for
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
@@ -9,6 +12,7 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
+  print(os.getcwd())
   return render_template('index.html', title='Home')
 
 @app.route('/login', methods=['GET', 'POST'])
