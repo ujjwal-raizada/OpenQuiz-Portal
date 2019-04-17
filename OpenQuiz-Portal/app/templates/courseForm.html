@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Add Course</h1>
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.course_id.label }}<br>
+      {{ form.course_id(size=32) }}<br>
+      {% for error in form.course_id.errors %}
+      <span style="color : red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.course_name.label }}<br>
+      {{ form.course_name(size=32) }}<br>
+      {% for error in form.course_name.errors %}
+      <span style="color : red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.ic_id.label }}<br>
+      {{ form.ic_id(size=32) }}<br>
+      {% for error in form.ic_id.errors %}
+      <span style="color : red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.submit() }}
+    </p>
+  </form>
+{% endblock %}
