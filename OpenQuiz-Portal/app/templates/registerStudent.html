@@ -40,16 +40,16 @@
       {% endfor %}
     </p>
     <p>
-      {{ form.student_id.label }}<br>
-      {{ form.student_id(size=32) }}<br>
-      {% for error in form.student_id.errors %}
+      {{ form.studentid.label }}<br>
+      {{ form.studentid(size=32) }}<br>
+      {% for error in form.studentid.errors %}
       <span style="color : red;">[{{ error }}]</span>
       {% endfor %}
     </p>
     <p>
-      {{ form.student_branch.label }}<br>
-      {{ form.student_branch(size=32) }}<br>
-      {% for error in form.student_branch.errors %}
+      {{ form.studentbranch.label }}<br>
+      {{ form.studentbranch }}<br>
+      {% for error in form.studentbranch.errors %}
       <span style="color : red;">[{{ error }}]</span>
       {% endfor %}
     </p>
