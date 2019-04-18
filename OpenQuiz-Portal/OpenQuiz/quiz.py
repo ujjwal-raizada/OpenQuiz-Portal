@@ -1,7 +1,6 @@
 import time
 from .database_operations import execute_query_fetchall, execute_query_fetchone
-from .database_operations import execute_query_get, execute_query_insert
-from .database_operations import cursor, conn
+from .database_operations import execute_query_get, execute_query_insert, execute_query_many
 
 
 class Quiz:
@@ -118,13 +117,15 @@ class Quiz:
             return False
         
 
-        query = []
+        values = []
         for ans in response:
-            query.append((sid, ans[0], qid, ans[1]))
+            values.append((sid, ans[0], qid, ans[1]))
 
         try:
-            cursor.executemany('INSERT INTO response VALUES (?, ?, ?, ?)', query)
-            conn.commit()
+
+            query = 'INSERT INTO response VALUES (?, ?, ?, ?)'
+            execute_query_many(query, values)
+
             return True
         except Exception:
             return False

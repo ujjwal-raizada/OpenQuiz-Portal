@@ -4,6 +4,7 @@ from OpenQuiz.quiz import Quiz
 from OpenQuiz.course import Course
 from OpenQuiz.faculty import Faculty
 from OpenQuiz import create_tables
+from OpenQuiz.database_operations import get_logs
 
 # Student.create_student('2017A7PS1398H', 'Ujjwal Raizada')
 # Student.create_student('2017A7PS0277H', 'Satyam Mani')
@@ -36,9 +37,10 @@ from OpenQuiz import create_tables
 
 # print(Quiz.insert_response(1, '2017A7PS1398H', A))
 
-print(Course.insert_student_in_course('2017A7PS1398H', 'CS F211'))
-print(Course.insert_student_in_course('2017A7PS0277H', 'CS F212'))
+# print(Course.insert_student_in_course('2017A7PS1398H', 'CS F211'))
+# print(Course.insert_student_in_course('2017A7PS0277H', 'CS F212'))
 
-print(Course.insert_faculty_in_course(3, 'CS F211'))
-print(Course.insert_faculty_in_course(1, 'CS F212'))
+# print(Course.insert_faculty_in_course(3, 'CS F211'))
+# print(Course.insert_faculty_in_course(1, 'CS F212'))
 
+print(get_logs())

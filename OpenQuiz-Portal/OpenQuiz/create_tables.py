@@ -126,6 +126,16 @@ def createMarklistTable():
     """
     return execute_query(query)
 
+def createLogsTable():
+
+    query = '''
+    CREATE TABLE IF NOT EXISTS logs (
+        query text,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    '''
+    return execute_query(query)
+
 
 createCourseTable()
 createFacultyTable()
@@ -136,5 +146,6 @@ createQuizTable()
 createResponseTable()
 createStudentCourseTable()
 createStudentTable()
+createLogsTable()
 
 conn.close()
