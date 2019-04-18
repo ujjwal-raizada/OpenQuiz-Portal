@@ -11,6 +11,7 @@ class LoginForm(FlaskForm):
 
 class RegistrationFormStudent(FlaskForm):
   username = StringField('Username', validators = [DataRequired()])
+  name = StringField('Full Name', validators = [DataRequired()])
   email = StringField('Email', validators = [DataRequired(), Email()])
   password = PasswordField('Password', validators = [DataRequired()])
   password2 = PasswordField(
@@ -31,6 +32,7 @@ class RegistrationFormStudent(FlaskForm):
 
 class RegistrationFormFaculty(FlaskForm):
   username = StringField('Username', validators = [DataRequired()])
+  name = StringField('Full Name', validators = [DataRequired()])
   email = StringField('Email', validators = [DataRequired(), Email()])
   password = PasswordField('Password', validators = [DataRequired()])
   password2 = PasswordField(

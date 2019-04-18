@@ -48,6 +48,7 @@ def registerStudent():
     user.set_password(form.password.data)
     db.session.add(user)
     db.session.commit()
+    print(Student.create_student(str(form.student_id.data), str(form.name.data)))
     flash('Congratulations, you are now a registered student!')
     return redirect(url_for('login'))
   return render_template('registerStudent.html', title = 'Register Student', form = form)
@@ -67,16 +68,19 @@ def registerFaculty():
   return render_template('registerFaculty.html', title = 'Register Faculty', form = form)
 
 @app.route('/addcourse', methods=['GET', 'POST'])
+@login_required
 def addCourse():
   form = CourseForm()
   return render_template('courseForm.html', title = 'Add Course', form = form)
 
 @app.route('/studentcourse', methods=['GET', 'POST'])
+@login_required
 def studentCourse():
   form = StudentCourseForm()
   return render_template('studentCourse.html', title = 'Enroll Course', form = form)
 
 @app.route('/facultycourse', methods=['GET', 'POST'])
+@login_required
 def facultyCourse():
   form = FacultyCourseForm()
   return render_template('facultyCourse.html', title = 'Enroll Course', form = form)
