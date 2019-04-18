@@ -1,13 +1,13 @@
 import sqlite3
 import time
 
-conn = sqlite3.connect('quiz-portal.db')
-conn.execute('PRAGMA foreign_keys = 1')
-
-cursor = conn.cursor()
-
 
 def execute_query_fetchone(query, values):
+
+    conn = sqlite3.connect('quiz-portal.db')
+    conn.execute('PRAGMA foreign_keys = 1')
+
+    cursor = conn.cursor()
 
     try:
         cursor.execute(query, values)
@@ -15,7 +15,14 @@ def execute_query_fetchone(query, values):
     except Exception as e:
         return e
 
+    
+
 def execute_query_fetchall(query, values):
+
+    conn = sqlite3.connect('quiz-portal.db')
+    conn.execute('PRAGMA foreign_keys = 1')
+
+    cursor = conn.cursor()
 
     try:
         cursor.execute(query, values)
@@ -25,6 +32,11 @@ def execute_query_fetchall(query, values):
 
 def execute_query_get(query):
 
+    conn = sqlite3.connect('quiz-portal.db')
+    conn.execute('PRAGMA foreign_keys = 1')
+
+    cursor = conn.cursor()
+
     try:
         cursor.execute(query)
         return cursor
@@ -33,6 +45,11 @@ def execute_query_get(query):
         return str(e)
 
 def execute_query_insert(query, values):
+
+    conn = sqlite3.connect('quiz-portal.db')
+    conn.execute('PRAGMA foreign_keys = 1')
+
+    cursor = conn.cursor()
 
     try:
         cursor.execute(query, values)
