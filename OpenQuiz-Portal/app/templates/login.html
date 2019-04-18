@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <p>New User ? <a href="{{ url_for('register') }}">Click to register!</a></p>
+  <p>New User? Click to Register!</p>
+  <p><a href="{{ url_for('registerStudent') }}">Student</a></p>
+  <p><a href="{{ url_for('registerFaculty') }}">Faculty</a></p>
   <h1>Sign In</h1>
   <form action="" method="post" novalidate>
     {{form.hidden_tag()}}
