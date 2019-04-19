@@ -1,6 +1,7 @@
 import os
 from OpenQuiz.student import Student
 from OpenQuiz.faculty import Faculty
+from OpenQuiz.course import Course
 from flask import render_template, flash, redirect, request, url_for
 from app import app, db
 from app.forms import LoginForm, RegistrationFormStudent, RegistrationFormFaculty
@@ -44,11 +45,11 @@ def registerStudent():
     return redirect(url_for('index'))
   form = RegistrationFormStudent()
   if form.validate_on_submit():
+    print(Student.create_student(form.studentid.data, form.name.data))
     user = User(username = form.username.data, email = form.email.data)
     user.set_password(form.password.data)
     db.session.add(user)
     db.session.commit()
-    print(Student.create_student(str(form.student_id.data), str(form.name.data)))
     flash('Congratulations, you are now a registered student!')
     return redirect(url_for('login'))
   return render_template('registerStudent.html', title = 'Register Student', form = form)
@@ -59,6 +60,7 @@ def registerFaculty():
     return redirect(url_for('index'))
   form = RegistrationFormFaculty()
   if form.validate_on_submit():
+    print(Faculty.create_faculty(form.name.data, form.email.data, form.department.data))
     user = User(username = form.username.data, email = form.email.data)
     user.set_password(form.password.data)
     db.session.add(user)
@@ -69,18 +71,30 @@ def registerFaculty():
 
 @app.route('/addcourse', methods=['GET', 'POST'])
 @login_required
-def addCourse():
+def addcourse():
   form = CourseForm()
+  if form.validate_on_submit():
+    Course.create_course(form.course_id.data, form.course_name.data, int(form.ic_id.data)) 
+    flash('The course has been added successfully')
+    return redirect(url_for('index'))
   return render_template('courseForm.html', title = 'Add Course', form = form)
 
 @app.route('/studentcourse', methods=['GET', 'POST'])
 @login_required
-def studentCourse():
+def studentcourse():
   form = StudentCourseForm()
+  if form.validate_on_submit():
+    Course.insert_student_in_course(form.student_id.data, form.course.data)
+    flash('The student has been successfully enrolled in the course')
+    return redirect(url_for('index'))
   return render_template('studentCourse.html', title = 'Enroll Course', form = form)
 
 @app.route('/facultycourse', methods=['GET', 'POST'])
 @login_required
-def facultyCourse():
+def facultycourse():
   form = FacultyCourseForm()
+  if form.validate_on_submit():
+    Course.insert_faculty_in_course(Faculty.get_faculty_id(form.faculty_email.data)[1], form.course.data)
+    flash('The faculty has been successfully enrolled in the course')
+    return redirect(url_for('index'))
   return render_template('facultyCourse.html', title = 'Enroll Course', form = form)

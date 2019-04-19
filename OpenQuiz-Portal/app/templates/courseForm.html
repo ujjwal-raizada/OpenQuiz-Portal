@@ -20,7 +20,7 @@
     </p>
     <p>
       {{ form.ic_id.label }}<br>
-      {{ form.ic_id(size=32) }}<br>
+      {{ form.ic_id }}<br>
       {% for error in form.ic_id.errors %}
       <span style="color : red;">[{{ error }}]</span>
       {% endfor %}

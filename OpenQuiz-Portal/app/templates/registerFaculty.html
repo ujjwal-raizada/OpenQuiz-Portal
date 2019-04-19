@@ -41,7 +41,7 @@
     </p>
     <p>
       {{ form.department.label }}<br>
-      {{ form.department(size=32) }}<br>
+      {{ form.department }}<br>
       {% for error in form.department.errors %}
       <span style="color : red;">[{{ error }}]</span>
       {% endfor %}

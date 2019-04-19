@@ -66,3 +66,14 @@ class Course:
         values = (sid, cid)
         result = execute_query_insert(query, values)
         return result
+
+    @staticmethod
+    def is_course(cid):
+
+        query = 'SELECT cid from course where cid = ?;'
+        values = (cid,)
+        result = execute_query_fetchone(query, values)
+        if (result is not None):
+            return True
+        else:
+            return False
