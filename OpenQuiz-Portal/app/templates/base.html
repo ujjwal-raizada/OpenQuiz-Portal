@@ -1,32 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-	{% if title %}
-	<title>{{ title }}</title>
-	{{ else }}
-	<title>Welcome to OpenQuiz-Portal</title>
-	{% endif %}
-</head>
-<body>
-	<div>
-		Links:
-		<a href="{{ url_for('index') }}">Home</a>
-		{% if current_user.is_anonymous %}
-		<a href="{{ url_for('login') }}">Login</a>
-		{% else %}
-		<a href="{{ url_for('logout') }}">Logout</a>	
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<style>
+			.card {
+				margin: 0 auto; /* Added */
+				float: none; /* Added */
+				margin-bottom: 10px; /* Added */
+			}
+			input[type="submit"] {
+				background-color: #008cba;
+				color: white;
+				border: 2px solid #008cba;
+				display: inline-block;
+				padding: 5px 150px;
+			}
+			input[type="submit"]:hover {
+				background-color: #008cba;
+				color: white;
+			}
+		</style>
+		{% if title %}
+		<title>{{ title }}</title>
+		{{ else }}
+		<title>Welcome to OpenQuiz-Portal</title>
 		{% endif %}
-	</div>
-	<hr>
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-	<ul>
-		{% for message in messages %}
-		<li>{{ message }}</li>
-		{% endfor %}
-	</ul>
-	{% endif %}
-	{% endwith %}
-	{% block content %}{% endblock %}
-</body>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<ul class="navbar-nav">
+				<li class="nav-item  ">
+					<a class="nav-link" href="{{ url_for('index') }}">Home</a>
+				</li>
+				{% if current_user.is_anonymous %}
+				<li class="nav-item ">
+					<a class="nav-link" href="{{ url_for('login') }}">Login</a>
+				</li>
+				{% else %}
+				<li class="nav-item ">
+					<a class="nav-link" href="{{ url_for('logout') }}"
+						>Logout</a
+					>
+				</li>
+			</ul>
+			{% endif %}
+		</nav>
+		<div class="text-center">
+			{% with messages = get_flashed_messages() %} {% if messages %}
+			<br />
+
+			<ul>
+				{% for message in messages %}
+				<li>{{ message }}</li>
+				{% endfor %}
+			</ul>
+			{% endif %} {% endwith %}
+		</div>
+		{% block content %}{% endblock %}
+	</body>
 </html>
