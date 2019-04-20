@@ -174,3 +174,12 @@ class Quiz:
 
         return quiz_report
 
+    @staticmethod
+    def get_faculty_quiz(fid):
+
+        query = 'SELECT cid FROM quiz WHERE fid=?;'
+        values = (fid,)
+
+        result = execute_query_fetchall(query, values)
+        return result
+

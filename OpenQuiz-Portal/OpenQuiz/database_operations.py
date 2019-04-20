@@ -6,7 +6,7 @@ def generate_log(query_log):
     query = 'INSERT INTO logs(query) VALUES(?)'
     values = (query_log,)
 
-    conn = sqlite3.connect('quiz-portal.db')
+    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
     conn.execute('PRAGMA foreign_keys = 1')
 
     cursor = conn.cursor()
@@ -20,7 +20,7 @@ def generate_log(query_log):
 
 def execute_query_fetchone(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db')
+    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
     conn.execute('PRAGMA foreign_keys = 1')
     conn.set_trace_callback(generate_log)
 
@@ -28,6 +28,7 @@ def execute_query_fetchone(query, values):
 
     try:
         cursor.execute(query, values)
+        conn.commit()
         return cursor.fetchone()
     except Exception as e:
         return e
@@ -35,7 +36,7 @@ def execute_query_fetchone(query, values):
 
 def execute_query_many(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db')
+    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
     conn.execute('PRAGMA foreign_keys = 1')
     conn.set_trace_callback(generate_log)
 
@@ -47,7 +48,7 @@ def execute_query_many(query, values):
 
 def execute_query_fetchall(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db')
+    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
     conn.execute('PRAGMA foreign_keys = 1')
     conn.set_trace_callback(generate_log)
 
@@ -61,7 +62,7 @@ def execute_query_fetchall(query, values):
 
 def execute_query_get(query):
 
-    conn = sqlite3.connect('quiz-portal.db')
+    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
     conn.execute('PRAGMA foreign_keys = 1')
     conn.set_trace_callback(generate_log)
 
@@ -77,7 +78,7 @@ def execute_query_get(query):
 
 def execute_query_insert(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db')
+    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
     conn.execute('PRAGMA foreign_keys = 1')
     conn.set_trace_callback(generate_log)
 

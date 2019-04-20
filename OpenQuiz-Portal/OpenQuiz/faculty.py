@@ -38,3 +38,15 @@ class Faculty:
             return (True, result[0])
         else:
             return (False,)
+
+    
+    @staticmethod
+    def get_faculty_course(fid):
+
+        query = 'SELECT cid FROM facultycourse WHERE fid=?;'
+        values = (fid,)
+
+        result = execute_query_fetchone(query, values)
+
+        return result
+
