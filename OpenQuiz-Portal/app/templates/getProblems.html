@@ -4,7 +4,7 @@
   {{ form.hidden_tag() }}
   <p>
     {{ form.quiz_id.label }}<br />
-    {{ form.quiz_id(size=32) }}<br />
+    {{ form.quiz_id }}<br />
     {% for error in form.quiz_id.errors %}
     <span style="color : red;">[{{ error }}]</span>
     {% endfor %}

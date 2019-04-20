@@ -79,6 +79,7 @@ def registerFaculty():
 @login_required
 def addcourse():
   form = CourseForm()
+  form.ic_id.choices = [(str(i[0]), i[1]) for i in Faculty.get_all_faculty()]
   if form.validate_on_submit():
     Course.create_course(form.course_id.data, form.course_name.data, int(form.ic_id.data)) 
     flash('The course has been added successfully')
@@ -89,6 +90,7 @@ def addcourse():
 @login_required
 def studentcourse():
   form = StudentCourseForm()
+  form.course.choices = [(i[0], i[1]) for i in Course.get_all_course()]
   if form.validate_on_submit():
     Course.insert_student_in_course(form.student_id.data, form.course.data)
     flash('The student has been successfully enrolled in the course')
@@ -99,6 +101,7 @@ def studentcourse():
 @login_required
 def facultycourse():
   form = FacultyCourseForm()
+  form.course.choices = [(i[0], i[1]) for i in Course.get_all_course()] 
   if form.validate_on_submit():
     print(current_user.email)
     faculty_id = (Faculty.get_faculty_id(current_user.email))
@@ -112,17 +115,17 @@ def facultycourse():
 
 @app.route('/createquiz', methods=['GET', 'POST'])
 @login_required
-def createquiz():
+def createquiz():    
+  faculty_id = Faculty.get_faculty_id(current_user.email)[1]
+  courses = Faculty.get_faculty_course(faculty_id)
   form = CreateQuiz()
-  if form.validate_on_submit():    
-    faculty_id = Faculty.get_faculty_id(current_user.email)
+  form.course.choices = [(i+1, courses[i]) for i in range(len(courses))]
+  if form.validate_on_submit():
     #course = Course.get_all_course()[0][0]
-    if(faculty_id[0] == False):
-      flash(form.faculty_email.data + ' is not a valid faculty email')
-    elif (False):#validate course name
+    if (False):#validate course name
       flash('__ is not a valid course name')
     else:
-      print(Quiz.create_quiz(faculty_id[1], 'CS F211', form.quiz_name.data, form.start_time.data, form.end_time.data))
+      print(Quiz.create_quiz(faculty_id, form.course.data, form.quiz_name.data, form.start_time.data, form.end_time.data))
       flash('quiz created successfully')
       return redirect(url_for('index'))
   return render_template('createQuiz.html', title = 'Create Quiz', form = form)
@@ -141,7 +144,10 @@ def createproblem():
 @app.route('/getproblems', methods=['GET', 'POST'])
 @login_required
 def getproblems():
+  faculty_id = Faculty.get_faculty_id(current_user.email)[1]
+  quizes = Quiz.get_faculty_quiz(faculty_id)
   form = GetProblems()
+  form.quiz_id.choices = [(i+1, quizes[i]) for i in range(len(quizes))]
   if form.validate_on_submit():
     if True:#check if quiz id is valid
       problems = Quiz.get_problems(form.quiz_id.data)

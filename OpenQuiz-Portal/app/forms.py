@@ -90,10 +90,9 @@ class RegistrationFormFaculty(FlaskForm):
 
 
 class CourseForm(FlaskForm):
-  faculty_list = [(str(i[0]), i[1]) for i in Faculty.get_all_faculty()]
   course_id = StringField('Enter Course ID', validators = [DataRequired()])
   course_name = StringField('Enter Course Name', validators = [DataRequired()])
-  ic_id = SelectField('Select IC', choices = faculty_list, validators = [DataRequired()])
+  ic_id = SelectField('Select IC', validators = [DataRequired()])
   submit = SubmitField('Add Course')
 
   def validate_course_id(self, course_id):
@@ -102,9 +101,8 @@ class CourseForm(FlaskForm):
       raise ValidationError('Entered Course is already registered')
 
 class StudentCourseForm(FlaskForm):
-  course_list = [(i[0], i[1]) for i in Course.get_all_course()]
   student_id = StringField('Enter Student ID', validators = [DataRequired()])
-  course = SelectField('Select Course', choices = course_list, validators = [DataRequired()])
+  course = SelectField('Select Course', validators = [DataRequired()])
   submit = SubmitField('Enroll')
 
   def validate_student_id(self, student_id):
@@ -112,9 +110,8 @@ class StudentCourseForm(FlaskForm):
     if(not temp):
       raise ValidationError('The entered ID is not registered')
 
-class FacultyCourseForm(FlaskForm):
-  course_list = [(i[0], i[1]) for i in Course.get_all_course()]
-  course = SelectField('Select Course', choices = course_list, validators = [DataRequired()])
+class FacultyCourseForm(FlaskForm):  
+  course = SelectField('Select Course', validators = [DataRequired()])
   submit = SubmitField('Enroll')
 
   def validate_faculty_email(self, faculty_email):
@@ -123,7 +120,7 @@ class FacultyCourseForm(FlaskForm):
       raise ValidationError('The entered email is not registered')
 
 class CreateQuiz(FlaskForm):
-  course = StringField('Enter Course', validators = [DataRequired()])
+  course = SelectField('Enter Course',choices = [])
   quiz_name = StringField('Enter Quiz Name', validators = [DataRequired()])
   start_time = DateTimeField("Enter Start Time(Yr-Mt-D Hr:Min:Sec)", format='%Y-%m-%d %H:%M:%S' )
   end_time = DateTimeField("Enter End Time", format='%Y-%m-%d %H:%M:%S' )
@@ -142,7 +139,7 @@ class CreateProblem(FlaskForm):
   submit = SubmitField('Create Problem')
 
 class GetProblems(FlaskForm):
-  quiz_id = StringField('Select Quiz', validators = [DataRequired()])
+  quiz_id = SelectField('Select Quiz', validators = [DataRequired()])
   submit = SubmitField('Get Problems')
 
 class QuizForm(FlaskForm):
