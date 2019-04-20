@@ -4,12 +4,12 @@ import time
 def connect_db():
 
     connection = pymysql.connect(host='sql12.freesqldatabase.com',
-                             port=3306,
-                             user='sql12288801',
-                             password='IIRcqAD4VW',
-                             db='sql12288801',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+        port=3306,
+        user='sql12288801',
+        password='IIRcqAD4VW',
+        db='sql12288801',
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor)
 
     return connection
 
