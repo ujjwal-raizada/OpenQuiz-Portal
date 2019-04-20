@@ -8,19 +8,20 @@ class Faculty:
     @staticmethod
     def create_faculty(fname, email, dept):
         
-        query = 'INSERT INTO faculty(fname, email, dept) VALUES(?, ?, ?)'
+        query = 'INSERT INTO faculty(fname, email, dept) VALUES(%s, %s, %s)'
         values = (fname, email, dept)
         return execute_query_insert(query, values)
 
     @staticmethod
     def get_all_faculty():
-        query = 'SELECT * FROM [faculty];'
+        query = 'SELECT * FROM faculty;'
+
         return list(execute_query_get(query))
 
     @staticmethod
     def is_faculty(fid):
 
-        query = 'SELECT fid from faculty where fid = ?;'
+        query = 'SELECT fid from faculty where fid = %s;'
         values = (fid,)
         result = execute_query_fetchone(query, values)
         if (result is not None):
@@ -31,7 +32,7 @@ class Faculty:
     @staticmethod
     def get_faculty_id(email):
 
-        query = 'SELECT fid from faculty where email = ?'
+        query = 'SELECT fid from faculty where email = %s'
         values = (email,)
         result = execute_query_fetchone(query, values)
         if (result != None):
@@ -43,7 +44,7 @@ class Faculty:
     @staticmethod
     def get_faculty_course(fid):
 
-        query = 'SELECT cid FROM facultycourse WHERE fid=?;'
+        query = 'SELECT cid FROM facultycourse WHERE fid=%s;'
         values = (fid,)
 
         result = execute_query_fetchone(query, values)

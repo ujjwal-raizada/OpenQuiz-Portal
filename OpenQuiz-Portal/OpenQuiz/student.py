@@ -10,7 +10,7 @@ class Student:
 
         # TODO: Use regex for ID
         
-        query = 'INSERT INTO student(sid, sname) VALUES(?, ?)'
+        query = 'INSERT INTO student(sid, sname) VALUES(%s, %s)'
         values = (sid, sname)
         return execute_query_insert(query, values)
 
@@ -22,7 +22,7 @@ class Student:
     @staticmethod
     def is_student(sid):
 
-        query = 'SELECT sid from student where sid = ?;'
+        query = 'SELECT sid from student where sid = %s;'
         values = (sid,)
         result = execute_query_fetchone(query, values)
         if (result is not None):

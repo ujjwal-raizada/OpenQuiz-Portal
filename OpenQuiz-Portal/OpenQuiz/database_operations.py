@@ -1,95 +1,124 @@
-import sqlite3
+import pymysql.cursors
 import time
+
+def connect_db():
+
+    connection = pymysql.connect(host='sql12.freesqldatabase.com',
+                             port=3306,
+                             user='sql12288801',
+                             password='IIRcqAD4VW',
+                             db='sql12288801',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+
+    return connection
+
+
 
 def generate_log(query_log):
 
-    query = 'INSERT INTO logs(query) VALUES(?)'
+    query = 'INSERT INTO logs(query) VALUES(%s)'
     values = (query_log,)
 
-    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
-    conn.execute('PRAGMA foreign_keys = 1')
+    conn = connect_db()
+    
+    with conn.cursor() as cursor:
+        
 
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute(query, values)
-        conn.commit()
-        return (True,)
-    except Exception as e:
-        return (False, e)
+        try:
+            cursor.execute(query, values)
+            conn.commit()
+            return (True,)
+        except Exception as e:
+            return (False, e)
 
 def execute_query_fetchone(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
-    conn.execute('PRAGMA foreign_keys = 1')
-    conn.set_trace_callback(generate_log)
+    conn = connect_db()
+    
+    with conn.cursor() as cursor:
+        
 
-    cursor = conn.cursor()
+        cursor = conn.cursor()
 
-    try:
-        cursor.execute(query, values)
-        conn.commit()
-        return cursor.fetchone()
-    except Exception as e:
-        return e
+        try:
+            cursor.execute(query, values)
+            conn.commit()
+            result = cursor.fetchone()
+            rt = None
+            if result is not None:
+                rt = ()
+                for data in result:
+                    rt += (result[data],)
+                print(rt)
+            return rt
+        except Exception as e:
+            return e
 
 
 def execute_query_many(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
-    conn.execute('PRAGMA foreign_keys = 1')
-    conn.set_trace_callback(generate_log)
+    conn = connect_db()
+    
+    with conn.cursor() as cursor:
+    
 
-    cursor = conn.cursor()
-
-    cursor.executemany(query, values)
-    conn.commit()
+        cursor.executemany(query, values)
+        conn.commit()
 
 
 def execute_query_fetchall(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
-    conn.execute('PRAGMA foreign_keys = 1')
-    conn.set_trace_callback(generate_log)
+    conn = connect_db()
+    
+    with conn.cursor() as cursor:
+        
 
-    cursor = conn.cursor()
+        cursor = conn.cursor()
 
-    try:
-        cursor.execute(query, values)
-        return cursor.fetchall()
-    except Exception as e:
-        return e
+        try:
+            cursor.execute(query, values)
+            return cursor.fetchall()
+        except Exception as e:
+            return e
 
 def execute_query_get(query):
 
-    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
-    conn.execute('PRAGMA foreign_keys = 1')
-    conn.set_trace_callback(generate_log)
+    conn = connect_db()
+    
+    with conn.cursor() as cursor:
 
-    cursor = conn.cursor()
-
-
-    try:
-        cursor.execute(query)
-        return cursor
-    except Exception as e:
-        print(e)
-        return str(e)
+        try:
+            cursor.execute(query)
+            result =(cursor.fetchall())
+            print(result)
+            rt = []
+            for r in result:
+                rtemp = ()
+                for data in r:
+                    rtemp += (r[data],)
+                rt.append(rtemp)
+            print(rt)
+            return rt
+        except Exception as e:
+            print(e)
+            return str(e)
 
 def execute_query_insert(query, values):
 
-    conn = sqlite3.connect('quiz-portal.db', check_same_thread=False)
-    conn.execute('PRAGMA foreign_keys = 1')
-    conn.set_trace_callback(generate_log)
+    conn = connect_db()
+    
+    with conn.cursor() as cursor:
+        
 
-    cursor = conn.cursor()
+        cursor = conn.cursor()
 
-    try:
-        cursor.execute(query, values)
-        conn.commit()
-        return (True,)
-    except Exception as e:
-        return (False, e)
+        try:
+            print(cursor.execute(query, values))
+            conn.commit()
+            return (True,)
+        except Exception as e:
+            return (False, e)
 
 
 def get_logs():

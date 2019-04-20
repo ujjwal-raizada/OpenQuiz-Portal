@@ -45,7 +45,7 @@ def execute_query_insert(query, values):
 
 def insert_faculty_in_course(fid, cid):
 
-    query = 'INSERT into facultycourse(fid, cid) VALUES(?, ?)'
+    query = 'INSERT into facultycourse(fid, cid) VALUES(%s, %s)'
     values = (fid, cid)
     result = execute_query_insert(query, values)
     return result
@@ -53,7 +53,7 @@ def insert_faculty_in_course(fid, cid):
 
 def insert_student_in_course(sid, cid):
 
-    query = 'INSERT into studentcourse(sid, cid) VALUES(?, ?)'
+    query = 'INSERT into studentcourse(sid, cid) VALUES(%s, %s)'
     values = (sid, cid)
     result = execute_query_insert(query, values)
     return result

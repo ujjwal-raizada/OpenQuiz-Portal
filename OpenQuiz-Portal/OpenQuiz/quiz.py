@@ -8,7 +8,7 @@ class Quiz:
     @staticmethod
     def create_quiz(fid, cid, qname, start, end):
         
-        query = 'INSERT INTO quiz(fid, cid, qname, start, end) VALUES(?, ?, ?, ?, ?)'
+        query = 'INSERT INTO quiz(fid, cid, qname, start, end) VALUES(%s, %s, %s, %s, %s)'
         values = (fid, cid, qname, start, end)
         return execute_query_insert(query, values)
 
@@ -17,7 +17,7 @@ class Quiz:
 
         query = '''
         INSERT INTO problem(qid, statement, option1, option2, option3, option4, ans, positive, negative)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)
         '''
         values = qid, statement, op1, op2, op3, op4, ans, positive, negative
         return execute_query_insert(query, values)
@@ -45,7 +45,7 @@ class Quiz:
     @staticmethod
     def quiz_status(qid):
 
-        query = 'select start, end from quiz WHERE qid = ?;'
+        query = 'select start, end from quiz WHERE qid = %s;'
         values = (qid,)
         result = execute_query_fetchone(query, values)
         current_time = time.time()
@@ -66,7 +66,7 @@ class Quiz:
         query = '''
         SELECT * from student, studentcourse, quiz
         where student.sid = studentcourse.sid AND studentcourse.cid = quiz.cid
-        AND student.sid = ? AND quiz.qid = ?;
+        AND student.sid = %s AND quiz.qid = %s;
         '''
         values = (sid, qid)
         result = execute_query_fetchone(query, values)
@@ -77,7 +77,7 @@ class Quiz:
     @staticmethod
     def get_problems(qid):
 
-        query = 'SELECT * FROM problem WHERE qid = ?;'
+        query = 'SELECT * FROM problem WHERE qid = %s;'
         values = (qid,)
         result = execute_query_fetchall(query, values)
         print(result)
@@ -102,7 +102,7 @@ class Quiz:
     @staticmethod
     def no_of_ques(qid):
 
-        query = 'SELECT count(*) FROM problem WHERE qid = ? GROUP BY qid;'
+        query = 'SELECT count(*) FROM problem WHERE qid = %s GROUP BY qid;'
         values = (qid,)
         return execute_query_fetchone(query, values)[0]
 
@@ -123,8 +123,10 @@ class Quiz:
 
         try:
 
-            query = 'INSERT INTO response VALUES (?, ?, ?, ?)'
-            execute_query_many(query, values)
+            query = 'INSERT INTO response(sid, pid, qid, option1) VALUES (%s, %s, %s, %s)'
+            for value in values:
+                print(value)
+                execute_query_insert(query, value)
 
             return True
         except Exception:
@@ -134,12 +136,12 @@ class Quiz:
     def calculate_marks(sid, qid):
 
         # Find correct answers
-        query = 'SELECT pid, ans, positive, negative FROM problem WHERE qid = ?;'
+        query = 'SELECT pid, ans, positive, negative FROM problem WHERE qid = %s;'
         values = (qid,)
         result1 = execute_query_fetchall(query, values)
 
         # Get the responses
-        query = 'SELECT pid, option FROM response WHERE sid = ? AND qid = ?;'
+        query = 'SELECT pid, option FROM response WHERE sid = %s AND qid = %s;'
         values = (sid, qid)
         result2 = execute_query_fetchall(query, values)
 
@@ -162,7 +164,7 @@ class Quiz:
     def generate_mark_list(qid):
         
         # get student list
-        query = 'SELECT sid FROM studentcourse, quiz WHERE studentcourse.cid = quiz.cid AND qid = ?;'
+        query = 'SELECT sid FROM studentcourse, quiz WHERE studentcourse.cid = quiz.cid AND qid = %s;'
         values = (qid,)
         result = execute_query_fetchall(query, values)
         
@@ -177,7 +179,7 @@ class Quiz:
     @staticmethod
     def get_faculty_quiz(fid):
 
-        query = 'SELECT cid FROM quiz WHERE fid=?;'
+        query = 'SELECT cid FROM quiz WHERE fid=%s;'
         values = (fid,)
 
         result = execute_query_fetchall(query, values)

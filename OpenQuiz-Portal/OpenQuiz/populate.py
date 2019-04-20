@@ -23,9 +23,9 @@ from .faculty import Faculty
 # Quiz.create_quiz(1, 'CS F212', 'SQL Queries 2', time.time(), time.time() + 600)
 
 
-# print(Quiz.create_problem(1, 'Number of edges in a tree?', 'n', 'n - 1', 'n + 1', '2n', 'B', 3, 1))
-# print(Quiz.create_problem(1, 'Number of edges in a single cycle?', 'n', 'n - 1', 'n + 1', '2n', 'A', 3, 1))
-# print(Quiz.create_problem(1, 'Number of edges in a single node graph?', 'n', '0', 'n + 1', '2n', 'B', 3, 1))
+# print(Quiz.create_problem(1, 'Number of edges in a tree%s', 'n', 'n - 1', 'n + 1', '2n', 'B', 3, 1))
+# print(Quiz.create_problem(1, 'Number of edges in a single cycle%s', 'n', 'n - 1', 'n + 1', '2n', 'A', 3, 1))
+# print(Quiz.create_problem(1, 'Number of edges in a single node graph%s', 'n', '0', 'n + 1', '2n', 'B', 3, 1))
 
 # A = [
 #     (1, 'A'),
