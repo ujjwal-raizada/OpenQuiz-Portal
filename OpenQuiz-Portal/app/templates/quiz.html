@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+<h1>Problems for Quiz Id {{quiz_id}}</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }} {% for problem in problems %}
+    <div>
+        <p>{{problem.pid}}</p>
+        <p>{{problem.statement}}</p>
+        <p>
+            {{form.ans.label}} <br />
+            {{form.ans(size=10)}} <br />
+            {% for error in form.ans.errors %}
+            <span style="color : red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+    </div>
+    {% endfor %}
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}

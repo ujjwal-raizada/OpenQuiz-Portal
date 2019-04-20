@@ -1,11 +1,13 @@
 import os
 from OpenQuiz.student import Student
 from OpenQuiz.faculty import Faculty
+from OpenQuiz.quiz import Quiz
 from OpenQuiz.course import Course
 from flask import render_template, flash, redirect, request, url_for
 from app import app, db
 from app.forms import LoginForm, RegistrationFormStudent, RegistrationFormFaculty
-from app.forms import CourseForm, StudentCourseForm, FacultyCourseForm
+from app.forms import CourseForm, StudentCourseForm, FacultyCourseForm,GetProblems
+from app.forms import CreateProblem, CreateQuiz,QuizForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -98,3 +100,62 @@ def facultycourse():
     flash('The faculty has been successfully enrolled in the course')
     return redirect(url_for('index'))
   return render_template('facultyCourse.html', title = 'Enroll Course', form = form)
+
+@app.route('/createquiz', methods=['GET', 'POST'])
+@login_required
+def createQuiz():
+  form = CreateQuiz()
+  if form.validate_on_submit():    
+    faculty_id = Faculty.get_faculty_id(form.faculty_email.data)
+    #course = Course.get_all_course()[0][0]
+    if(faculty_id[0] == False):
+      flash(form.faculty_email.data + ' is not a valid faculty email')
+    elif (False):#validate course name
+      flash('__ is not a valid course name')
+    else:
+      print(Quiz.create_quiz(faculty_id[1], 'CS F211', form.quiz_name.data, form.start_time.data, form.end_time.data))
+      flash('quiz created successfully')
+      return redirect(url_for('index'))
+  return render_template('createQuiz.html', title = 'Create Quiz', form = form)
+
+@app.route('/createproblem', methods=['GET', 'POST'])
+@login_required
+def createProblem():
+  form = CreateProblem()
+  if form.validate_on_submit():
+    print(Quiz.create_problem(form.quiz_id.data,form.statement.data, form.op_1.data, form.op_2.data, form.op_3.data, form.op_4.data, form.ans.data, form.positive.data, form.negative.data))
+    flash('problem created successfully')
+    return redirect(url_for('index'))
+  return render_template('createProblem.html', title = 'Create Problem', form = form)
+
+@app.route('/getproblems', methods=['GET', 'POST'])
+@login_required
+def getProblems():
+  form = GetProblems()
+  if form.validate_on_submit():
+    if True:#check if quiz id is valid
+      problems = Quiz.get_problems(form.quiz_id.data)
+      return render_template('problemsList.html', title='Hme', quiz_id = form.quiz_id.data, problems = problems)
+    else:
+      flash('Invalid Quiz id')
+  return render_template('getProblems.html', title =  'Get Problems', form = form)
+
+@app.route('/enterquiz', methods=['GET', 'POST'])
+@login_required
+def enterQuiz():
+  form = GetProblems()
+  if form.validate_on_submit():
+    if True:#check if quiz id is valid
+      return redirect (url_for('quizForm', quiz_id=form.quiz_id.data))
+    else:
+      flash('Invalid Quiz id')
+  return render_template('getProblems.html', title =  'Get Problems', form = form)
+
+@app.route('/quiz/<quiz_id>', methods=['GET', 'POST'])
+@login_required
+def quizForm(quiz_id):
+  problems = Quiz.get_problems(quiz_id);
+  form = QuizForm()
+  if form.validate_on_submit():
+    print(form)
+  return render_template('quiz.html', title =  'Quiz', form = form, problems=problems)

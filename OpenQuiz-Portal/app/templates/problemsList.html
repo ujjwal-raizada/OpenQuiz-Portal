@@ -1,0 +1,8 @@
+{% extends "base.html" %} {% block content %}
+<h1>Problems for Quiz Id {{quiz_id}}</h1>
+{% for problem in problems %}
+<div>
+  <p>{{problem.pid}}</p>
+  <p>{{problem.statement}}</p>
+</div>
+{% endfor %} {% endblock %}
