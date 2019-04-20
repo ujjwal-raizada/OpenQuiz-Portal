@@ -114,7 +114,6 @@ class StudentCourseForm(FlaskForm):
 
 class FacultyCourseForm(FlaskForm):
   course_list = [(i[0], i[1]) for i in Course.get_all_course()]
-  faculty_email = StringField('Enter Faculty Email', validators = [DataRequired()])
   course = SelectField('Select Course', choices = course_list, validators = [DataRequired()])
   submit = SubmitField('Enroll')
 
@@ -124,7 +123,6 @@ class FacultyCourseForm(FlaskForm):
       raise ValidationError('The entered email is not registered')
 
 class CreateQuiz(FlaskForm):
-  faculty_email = StringField('Enter Faculty Email', validators = [DataRequired()])
   course = StringField('Enter Course', validators = [DataRequired()])
   quiz_name = StringField('Enter Quiz Name', validators = [DataRequired()])
   start_time = DateTimeField("Enter Start Time(Yr-Mt-D Hr:Min:Sec)", format='%Y-%m-%d %H:%M:%S' )

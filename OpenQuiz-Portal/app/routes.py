@@ -17,7 +17,11 @@ from werkzeug.urls import url_parse
 @login_required
 def index():
   print(os.getcwd())
-  return render_template('index.html', title='Home')
+  username = current_user.username
+  user_type = 'faculty'
+  if(Faculty.get_faculty_id(username)[0] == False):
+    user_type = 'student'
+  return render_template('index.html', title='Home', user_type = user_type)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -96,17 +100,22 @@ def studentcourse():
 def facultycourse():
   form = FacultyCourseForm()
   if form.validate_on_submit():
-    Course.insert_faculty_in_course(Faculty.get_faculty_id(form.faculty_email.data)[1], form.course.data)
-    flash('The faculty has been successfully enrolled in the course')
-    return redirect(url_for('index'))
+    print(current_user.email)
+    faculty_id = (Faculty.get_faculty_id(current_user.email))
+    if faculty_id[0] == False:
+      flash('Error: Faculty not registered in the database')
+    else:
+      Course.insert_faculty_in_course(faculty_id[1], form.course.data)
+      flash('The faculty has been successfully enrolled in the course')
+      return redirect(url_for('index'))
   return render_template('facultyCourse.html', title = 'Enroll Course', form = form)
 
 @app.route('/createquiz', methods=['GET', 'POST'])
 @login_required
-def createQuiz():
+def createquiz():
   form = CreateQuiz()
   if form.validate_on_submit():    
-    faculty_id = Faculty.get_faculty_id(form.faculty_email.data)
+    faculty_id = Faculty.get_faculty_id(current_user.email)
     #course = Course.get_all_course()[0][0]
     if(faculty_id[0] == False):
       flash(form.faculty_email.data + ' is not a valid faculty email')
@@ -120,17 +129,18 @@ def createQuiz():
 
 @app.route('/createproblem', methods=['GET', 'POST'])
 @login_required
-def createProblem():
+def createproblem():
+  user = current_user.username
   form = CreateProblem()
   if form.validate_on_submit():
-    print(Quiz.create_problem(form.quiz_id.data,form.statement.data, form.op_1.data, form.op_2.data, form.op_3.data, form.op_4.data, form.ans.data, form.positive.data, form.negative.data))
+    Quiz.create_problem(form.quiz_id.data,form.statement.data, form.op_1.data, form.op_2.data, form.op_3.data, form.op_4.data, form.ans.data, form.positive.data, form.negative.data)
     flash('problem created successfully')
     return redirect(url_for('index'))
   return render_template('createProblem.html', title = 'Create Problem', form = form)
 
 @app.route('/getproblems', methods=['GET', 'POST'])
 @login_required
-def getProblems():
+def getproblems():
   form = GetProblems()
   if form.validate_on_submit():
     if True:#check if quiz id is valid
@@ -142,20 +152,20 @@ def getProblems():
 
 @app.route('/enterquiz', methods=['GET', 'POST'])
 @login_required
-def enterQuiz():
+def enterquiz():
   form = GetProblems()
   if form.validate_on_submit():
     if True:#check if quiz id is valid
-      return redirect (url_for('quizForm', quiz_id=form.quiz_id.data))
+      return redirect (url_for('quizform', quiz_id=form.quiz_id.data))
     else:
       flash('Invalid Quiz id')
   return render_template('getProblems.html', title =  'Get Problems', form = form)
 
 @app.route('/quiz/<quiz_id>', methods=['GET', 'POST'])
 @login_required
-def quizForm(quiz_id):
+def quizform(quiz_id):
   problems = Quiz.get_problems(quiz_id);
   form = QuizForm()
-  if form.validate_on_submit():
-    print(form)
+  #if form.validate_on_submit():
+    #print(form)
   return render_template('quiz.html', title =  'Quiz', form = form, problems=problems)

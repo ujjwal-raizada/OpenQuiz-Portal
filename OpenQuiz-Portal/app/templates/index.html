@@ -1,9 +1,14 @@
-{% extends "base.html" %}
-
-{% block content %}
-  <h1>Hello, {{ current_user.username }}!</h1>
-  <p><a href="{{ url_for('addcourse') }}">Add Course</a></p>
-  <p><a href="{{ url_for('studentcourse') }}">Enroll Student in a Course</a></p>
-  <p><a href="{{ url_for('facultycourse') }}">Enroll Faculty in a Course</a></p>
-{% endblock %}
-
+{% extends "base.html" %} {% block content %}
+<h1>Hello, {{ current_user.username }}!</h1>
+<!--Links for faculty -->
+{% if user_type == 'faculty' %}
+<p><a href="{{ url_for('addcourse') }}">Add a new Course</a></p>
+<p><a href="{{ url_for('facultycourse') }}">Enroll in a Course</a></p>
+<p><a href="{{ url_for('createquiz') }}">Create a new quiz</a></p>
+<p><a href="{{ url_for('createproblem') }}">Add a problem to a quiz</a></p>
+<p><a href="{{ url_for('getproblems') }}">Get Problems of a quiz</a></p>
+{% else %}
+<!--Links for students -->
+<p><a href="{{ url_for('studentcourse') }}">Enroll in a Course</a></p>
+<p><a href="{{ url_for('enterquiz') }}">Enter a quiz</a></p>
+{% endif %} {% endblock %}
