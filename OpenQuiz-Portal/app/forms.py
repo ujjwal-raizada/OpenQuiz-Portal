@@ -8,7 +8,7 @@ from OpenQuiz.faculty import Faculty
 from OpenQuiz.course import Course
 
 class LoginForm(FlaskForm):
-  username = StringField('Username', validators=[DataRequired()])
+  email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
   remember_me = BooleanField('Remember Me')
   submit = SubmitField('Sign In')
@@ -101,7 +101,6 @@ class CourseForm(FlaskForm):
       raise ValidationError('Entered Course is already registered')
 
 class StudentCourseForm(FlaskForm):
-  student_id = StringField('Enter Student ID', validators = [DataRequired()])
   course = SelectField('Select Course', validators = [DataRequired()])
   submit = SubmitField('Enroll')
 

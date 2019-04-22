@@ -1,21 +1,39 @@
 {% extends "base.html" %} {% block content %}
-<h1>Problems for Quiz Id {{quiz_id}}</h1>
+<h1>Problems for Quiz {{quiz_id}}</h1>
 <form action="" method="post">
-    {{ form.hidden_tag() }} {% for problem in problems %}
+    {% for problem in problems %}
     <div>
-        <p>{{problem.pid}}</p>
         <p>{{problem.statement}}</p>
-        <p>
-            {{form.ans.label}} <br />
-            {{form.ans(size=10)}} <br />
-            {% for error in form.ans.errors %}
-            <span style="color : red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
+        <form>
+            <input
+                type="radio"
+                name="{{problem.option1}}"
+                value="{{problem.option1}}"
+            />
+            {{problem.option1}}
+            <input
+                type="radio"
+                name="{{problem.option2}}"
+                value="{{problem.option2}}"
+            />
+            {{problem.option2}}
+            <input
+                type="radio"
+                name="{{problem.option3}}"
+                value="{{problem.option3}}"
+            />
+            {{problem.option3}}
+            <input
+                type="radio"
+                name="{{problem.option4}}"
+                value="{{problem.option4}}"
+            />
+            {{problem.option4}}
+        </form>
+        <br />
+        <hr />
     </div>
     {% endfor %}
-    <p>
-        {{ form.submit() }}
-    </p>
+    <input type="submit" />
 </form>
 {% endblock %}

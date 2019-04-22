@@ -16,12 +16,8 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
-  print(os.getcwd())
-  username = current_user.username
-  user_type = 'faculty'
-  if(Faculty.get_faculty_id(username)[0] == False):
-    user_type = 'student'
-  return render_template('index.html', title='Home', user_type = user_type)
+  print(os.getcwd()) 
+  return render_template('index.html', title='Home', user_type = current_user.user_type)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -29,7 +25,7 @@ def login():
     return redirect(url_for('index'))
   form = LoginForm()
   if form.validate_on_submit():
-    user = User.query.filter_by(username = form.username.data).first()
+    user = User.query.filter_by(email = form.email.data).first()
     if user is None or not user.check_password(form.password.data):
       flash('Invalid username or password')
       return redirect(url_for('login'))
@@ -52,7 +48,8 @@ def registerStudent():
   form = RegistrationFormStudent()
   if form.validate_on_submit():
     print(Student.create_student(form.studentid.data, form.name.data))
-    user = User(username = form.username.data, email = form.email.data)
+    user = User(username = form.username.data, email = form.email.data, 
+                user_id = form.studentid.data, user_type = 'Student')
     user.set_password(form.password.data)
     db.session.add(user)
     db.session.commit()
@@ -67,7 +64,8 @@ def registerFaculty():
   form = RegistrationFormFaculty()
   if form.validate_on_submit():
     print(Faculty.create_faculty(form.name.data, form.email.data, form.department.data))
-    user = User(username = form.username.data, email = form.email.data)
+    user = User(username = form.username.data, email = form.email.data, 
+                user_id = 'Null', user_type = 'Faculty')
     user.set_password(form.password.data)
     db.session.add(user)
     db.session.commit()
@@ -92,7 +90,7 @@ def studentcourse():
   form = StudentCourseForm()
   form.course.choices = [(i[0], i[1]) for i in Course.get_all_course()]
   if form.validate_on_submit():
-    Course.insert_student_in_course(form.student_id.data, form.course.data)
+    Course.insert_student_in_course(current_user.user_id, form.course.data)
     flash('The student has been successfully enrolled in the course')
     return redirect(url_for('index'))
   return render_template('studentCourse.html', title = 'Enroll Course', form = form)
@@ -159,19 +157,29 @@ def getproblems():
 @app.route('/enterquiz', methods=['GET', 'POST'])
 @login_required
 def enterquiz():
+  quizes = Quiz.get_all_quiz()
   form = GetProblems()
+  form.quiz_id.choices = [(i+1, quizes[i][0]) for i in range(len(quizes))]
   if form.validate_on_submit():
-    if True:#check if quiz id is valid
-      return redirect (url_for('quizform', quiz_id=form.quiz_id.data))
-    else:
-      flash('Invalid Quiz id')
+    return redirect (url_for('quizform', quiz_id=form.quiz_id.data))
   return render_template('getProblems.html', title =  'Get Problems', form = form)
 
-@app.route('/quiz/<quiz_id>', methods=['GET', 'POST'])
+@app.route('/quiz/<quiz_id>', methods=['GET'])
 @login_required
 def quizform(quiz_id):
-  problems = Quiz.get_problems(quiz_id);
-  form = QuizForm()
-  #if form.validate_on_submit():
-    #print(form)
-  return render_template('quiz.html', title =  'Quiz', form = form, problems=problems)
+  student_id = current_user.user_id
+  if (Quiz.is_student_in_quiz(student_id,quiz_id) == False):#check if quiz id is valid
+     flash('Sorry you have not enrolled for this Quiz!!' )
+     return redirect (url_for('enterquiz'))
+  #problems = Quiz.get_problems(quiz_id);
+  problems = [{"pid": 1,"statement": "Number of edges in a tree","qid": 1, "option1": "n", "option2": "nn", "option3": "3n", "option4": "2n"},
+   {"pid": 2,"statement": " 2Number2 of edges in a tree","qid": 1, "option1": "n", "option2": "nn", "option3": "3n", "option4": "2n"},
+   {"pid": 3,"statement": " 3Number3 of edges in a tree","qid": 1, "option1": "n", "option2": "nn", "option3": "3n", "option4": "2n"}]  
+  return render_template('quiz.html', title =  'Quiz', problems=problems, quiz_id = quiz_id)
+
+@app.route('/quiz/<quiz_id>', methods=['POST'])
+@login_required
+def quizforrm(quiz_id):
+  d = request.form.to_dict()
+  print(d)
+  return redirect('/')

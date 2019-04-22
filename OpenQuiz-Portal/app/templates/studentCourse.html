@@ -4,11 +4,7 @@
   <div class="card-header text-center"><h4>Enroll Course</h4></div>
   <div class="card-body">
     <form action="" method="post">
-      {{ form.hidden_tag() }} {{ form.student_id.label }}<br />
-      {{ form.student_id(size=32,class_="form-control") }}<br />
-      {% for error in form.student_id.errors %}
-      <span style="color : red;">[{{ error }}]</span>
-      {% endfor %} {{ form.course.label }}<br />
+      {{ form.hidden_tag() }} {{ form.course.label }}<br />
       {{ form.course(class_="form-control") }}<br />
       {% for error in form.course.errors %}
       <span style="color : red;">[{{ error }}]</span>
