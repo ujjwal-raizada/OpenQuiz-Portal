@@ -4,32 +4,16 @@
     {% for problem in problems %}
     <div>
         <p>{{problem.statement}}</p>
-        <form>
-            <input
-                type="radio"
-                name="{{problem.option1}}"
-                value="{{problem.option1}}"
-            />
-            {{problem.option1}}
-            <input
-                type="radio"
-                name="{{problem.option2}}"
-                value="{{problem.option2}}"
-            />
-            {{problem.option2}}
-            <input
-                type="radio"
-                name="{{problem.option3}}"
-                value="{{problem.option3}}"
-            />
-            {{problem.option3}}
-            <input
-                type="radio"
-                name="{{problem.option4}}"
-                value="{{problem.option4}}"
-            />
-            {{problem.option4}}
-        </form>
+        <input type="radio" name="{{problem.pid}}" value="A" />
+        {{problem.option1}}
+        <input type="radio" name="{{problem.pid}}" value="B" />
+        {{problem.option2}}
+        <input type="radio" name="{{problem.pid}}" value="C" />
+        {{problem.option3}}
+        <input type="radio" name="{{problem.pid}}" value="D" />
+        {{problem.option4}}
+        <input type="radio" name="{{problem.pid}}" value="E" />
+        {{"Leave Question"}}
         <br />
         <hr />
     </div>
