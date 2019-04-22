@@ -16,7 +16,7 @@ class Student:
 
     @staticmethod
     def get_all_student():
-        query = 'SELECT * FROM [student];'
+        query = 'SELECT * FROM student;'
         return list(execute_query_get(query))
 
     @staticmethod

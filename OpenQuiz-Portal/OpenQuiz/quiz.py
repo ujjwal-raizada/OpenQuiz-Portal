@@ -24,22 +24,22 @@ class Quiz:
 
     @staticmethod
     def get_all_quiz():
-        query = 'SELECT * FROM [quiz];'
+        query = 'SELECT * FROM quiz;'
         return list(execute_query_get(query))
 
     @staticmethod
     def get_all_problem():
-        query = 'SELECT * FROM [problem];'
+        query = 'SELECT * FROM problem;'
         return list(execute_query_get(query))
 
     @staticmethod
     def get_all_response():
-        query = 'SELECT * FROM [response];'
+        query = 'SELECT * FROM response;'
         return list(execute_query_get(query))
 
     @staticmethod
     def get_all_marklist():
-        query = 'SELECT * FROM [marklist];'
+        query = 'SELECT * FROM marklist;'
         return list(execute_query_get(query))
 
     @staticmethod
