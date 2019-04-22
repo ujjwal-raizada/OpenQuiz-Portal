@@ -153,7 +153,7 @@ class Quiz:
         if (len(result1) == len(result2)):
             marks = 0
             for i in range(len(result1)):
-                if (result1[i][1] == result2[i][1]):
+                if (result1[i][1] == result2[i][1] and result2[i][1] != 'E'):
                     marks += result1[i][2]
                 else:
                     marks -= result1[i][3]
