@@ -1,32 +1,27 @@
-{% extends "base.html" %}
-
-{% block content %}
-  <h1>Add Course</h1>
-  <form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-      {{ form.course_id.label }}<br>
-      {{ form.course_id(size=32) }}<br>
+{% extends "base.html" %} {% block content %}
+<div class="card bg-light my-4" style="width:400px">
+  <div class="card-header"><h4>Add Course</h4></div>
+  <div class="card-body">
+    <form action="" method="post">
+      {{ form.hidden_tag() }} {{ form.course_id.label }}<br />
+      {{ form.course_id(size=32, class_="form-control") }}<br />
       {% for error in form.course_id.errors %}
       <span style="color : red;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      {{ form.course_name.label }}<br>
-      {{ form.course_name(size=32) }}<br>
+      {% endfor %} {{ form.course_name.label }}<br />
+      {{ form.course_name(size=32, class_="form-control") }}<br />
       {% for error in form.course_name.errors %}
       <span style="color : red;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      {{ form.ic_id.label }}<br>
-      {{ form.ic_id }}<br>
+      {% endfor %} {{ form.ic_id.label }}<br />
+      {{ form.ic_id(class_="form-control")}}<br />
       {% for error in form.ic_id.errors %}
       <span style="color : red;">[{{ error }}]</span>
       {% endfor %}
-    </p>
-    <p>
-      {{ form.submit() }}
-    </p>
-  </form>
+      <br />
+      <div class="text-center">
+        {{ form.submit() }}
+      </div>
+    </form>
+  </div>
+</div>
+
 {% endblock %}

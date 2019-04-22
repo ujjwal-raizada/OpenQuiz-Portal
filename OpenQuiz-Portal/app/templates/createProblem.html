@@ -1,72 +1,78 @@
 {% extends "base.html" %} {% block content %}
-<h1>Create Problem</h1>
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.quiz_id.label }}<br />
-    {{ form.quiz_id(size=32) }}<br />
-    {% for error in form.quiz_id.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.statement.label }}<br />
-    {{ form.statement(size=64) }}<br />
-    {% for error in form.statement.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.op_1.label }}<br />
-    {{ form.op_1(size=32) }}<br />
-    {% for error in form.op_1.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.op_2.label }}<br />
-    {{ form.op_2(size=32) }}<br />
-    {% for error in form.op_2.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.op_3.label }}<br />
-    {{ form.op_3(size=32) }}<br />
-    {% for error in form.op_3.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.op_4.label }}<br />
-    {{ form.op_4(size=32) }}<br />
-    {% for error in form.op_4.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.ans.label }}<br />
-    {{ form.ans(size=32) }}<br />
-    {% for error in form.ans.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.positive.label }}<br />
-    {{ form.positive(size=32) }}<br />
-    {% for error in form.positive.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.negative.label }}<br />
-    {{ form.negative(size=32) }}<br />
-    {% for error in form.negative.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.submit() }}
-  </p>
-</form>
+
+<div class="card bg-light my-4" style="width:800px;">
+  <div class="card-header"><h4>Create Problem</h4></div>
+  <div class="card-body">
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.quiz_id.label }}<br />
+        {{ form.quiz_id(size=32, class_="form-control") }}<br />
+        {% for error in form.quiz_id.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.statement.label }}<br />
+        {{ form.statement(size=32,class_="form-control") }}<br />
+        {% for error in form.statement.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.op_1.label }}<br />
+        {{ form.op_1(size=32,class_="form-control") }}<br />
+        {% for error in form.op_1.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.op_2.label }}<br />
+        {{ form.op_2(size=32,class_="form-control") }}<br />
+        {% for error in form.op_2.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.op_3.label }}<br />
+        {{ form.op_3(size=32,class_="form-control") }}<br />
+        {% for error in form.op_3.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.op_4.label }}<br />
+        {{ form.op_4(size=32,class_="form-control") }}<br />
+        {% for error in form.op_4.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.ans.label }}<br />
+        {{ form.ans(size=32,class_="form-control") }}<br />
+        {% for error in form.ans.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.positive.label }}<br />
+        {{ form.positive(size=32,class_="form-control") }}<br />
+        {% for error in form.positive.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.negative.label }}<br />
+        {{ form.negative(size=32,class_="form-control") }}<br />
+        {% for error in form.negative.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <div class="text-center">
+        {{ form.submit() }}
+      </div>
+    </form>
+  </div>
+</div>
+
 {% endblock %}

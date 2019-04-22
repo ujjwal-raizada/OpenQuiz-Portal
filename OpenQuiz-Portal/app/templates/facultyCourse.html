@@ -1,16 +1,22 @@
 {% extends "base.html" %} {% block content %}
-<h1>Enroll Course</h1>
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.course.label }}<br />
-    {{ form.course }}<br />
-    {% for error in form.course.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.submit() }}
-  </p>
-</form>
+
+<div class="card my-4" style="width: 400px;">
+  <div class="card-header"><h4>Enroll Course</h4></div>
+  <div class="card-body">
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.course.label }}<br />
+        {{ form.course(class_ = "form-control") }}<br />
+        {% for error in form.course.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <div class="text-center">
+        {{ form.submit() }}
+      </p>
+    </form>
+  </div>
+</div>
+
 {% endblock %}

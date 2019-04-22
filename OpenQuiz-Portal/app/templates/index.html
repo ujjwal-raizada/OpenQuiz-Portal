@@ -1,14 +1,59 @@
 {% extends "base.html" %} {% block content %}
-<h1>Hello, {{ current_user.username }}!</h1>
+
 <!--Links for faculty -->
 {% if user_type == 'faculty' %}
-<p><a href="{{ url_for('addcourse') }}">Add a new Course</a></p>
-<p><a href="{{ url_for('facultycourse') }}">Enroll in a Course</a></p>
-<p><a href="{{ url_for('createquiz') }}">Create a new quiz</a></p>
-<p><a href="{{ url_for('createproblem') }}">Add a problem to a quiz</a></p>
-<p><a href="{{ url_for('getproblems') }}">Get Problems of a quiz</a></p>
+
+<div class="card my-4" style="width: 400px;">
+    <div class="card-header">
+        <h4 class="text-info text-center">
+            Hello, {{ current_user.username }}!
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class = "text-center"><a href="{{ url_for('addcourse') }}">Add a new Course</a></p>
+        <div class = "text-center"><a href="{{ url_for('facultycourse') }}">Enroll in a Course</a></p>
+        <div class = "text-center"><a href="{{ url_for('createquiz') }}">Create a new quiz</a></p>
+        <div class = "text-center">
+            <a href="{{ url_for('createproblem') }}">Add a problem to a quiz</a>
+        </p>
+        <div class = "text-center"><a href="{{ url_for('getproblems') }}">Get Problems of a quiz</a></p>
+    </div>
+</div>
 {% else %}
 <!--Links for students -->
-<p><a href="{{ url_for('studentcourse') }}">Enroll in a Course</a></p>
-<p><a href="{{ url_for('enterquiz') }}">Enter a quiz</a></p>
+<div class="card my-4" style="width:400px;">
+    <div class="card-header">
+        <h4 class="text-info text-center">
+            Hello, {{ current_user.username }}!
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-sm-6">Enroll in a course</div>
+                <div class="col col-sm-6 text-center">
+                    <button
+                        class="btn-success btn-block"
+                        onclick="window.location.href = './studentcourse';"
+                    >
+                        Enter
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col col-sm-6">Enter a quiz</div>
+                <div class="col col-sm-6 text-center">
+                    <button
+                        class="btn-success btn-block"
+                        onclick="window.location.href = './enterquiz';"
+                    >
+                        Enter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endif %} {% endblock %}
