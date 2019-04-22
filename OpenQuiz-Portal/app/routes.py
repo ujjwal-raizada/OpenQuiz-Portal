@@ -88,7 +88,7 @@ def addcourse():
 @login_required
 def studentcourse():
   form = StudentCourseForm()
-  form.course.choices = [(i[0], i[1]) for i in Course.get_all_course()]
+  form.course.choices = [(course[0], course[1]) for course in Course.get_all_course()]
   if form.validate_on_submit():
     Course.insert_student_in_course(current_user.user_id, form.course.data)
     flash('The student has been successfully enrolled in the course')
@@ -99,9 +99,8 @@ def studentcourse():
 @login_required
 def facultycourse():
   form = FacultyCourseForm()
-  form.course.choices = [(i[0], i[1]) for i in Course.get_all_course()] 
+  form.course.choices = [(course[0], course[1]) for course in Course.get_all_course()] 
   if form.validate_on_submit():
-    print(current_user.email)
     faculty_id = (Faculty.get_faculty_id(current_user.email))
     if faculty_id[0] == False:
       flash('Error: Faculty not registered in the database')
@@ -117,7 +116,7 @@ def createquiz():
   faculty_id = Faculty.get_faculty_id(current_user.email)[1]
   courses = Faculty.get_faculty_course(faculty_id)
   form = CreateQuiz()
-  form.course.choices = [(i+1, courses[i]) for i in range(len(courses))]
+  form.course.choices = [(course['cid'], course['cid']) for course in courses]
   if form.validate_on_submit():
     #course = Course.get_all_course()[0][0]
     if (False):#validate course name
@@ -131,8 +130,11 @@ def createquiz():
 @app.route('/createproblem', methods=['GET', 'POST'])
 @login_required
 def createproblem():
-  user = current_user.username
+  faculty_id = Faculty.get_faculty_id(current_user.email)[1]
+  quizes = Quiz.get_faculty_quiz(faculty_id)
+  print(quizes)
   form = CreateProblem()
+  form.quiz_id.choices = [(str(quiz['qid']), "{}: {}".format(quiz['cid'], quiz['qname'])) for quiz in quizes]
   if form.validate_on_submit():
     Quiz.create_problem(form.quiz_id.data,form.statement.data, form.op_1.data, form.op_2.data, form.op_3.data, form.op_4.data, form.ans.data, form.positive.data, form.negative.data)
     flash('problem created successfully')
@@ -144,10 +146,11 @@ def createproblem():
 def getproblems():
   faculty_id = Faculty.get_faculty_id(current_user.email)[1]
   quizes = Quiz.get_faculty_quiz(faculty_id)
+  print(quizes)
   form = GetProblems()
-  form.quiz_id.choices = [(i+1, quizes[i]) for i in range(len(quizes))]
+  form.quiz_id.choices = [(str(quiz['qid']), "{}: {}".format(quiz['cid'], quiz['qname'])) for quiz in quizes]
   if form.validate_on_submit():
-    if True:#check if quiz id is valid
+    if True:  # check if quiz id is valid
       problems = Quiz.get_problems(form.quiz_id.data)
       return render_template('problemsList.html', title='Hme', quiz_id = form.quiz_id.data, problems = problems)
     else:
@@ -159,7 +162,7 @@ def getproblems():
 def enterquiz():
   quizes = Quiz.get_all_quiz()
   form = GetProblems()
-  form.quiz_id.choices = [(i+1, quizes[i][0]) for i in range(len(quizes))]
+  form.quiz_id.choices = [(quiz[0], quiz[0]) for quiz in quizes]
   if form.validate_on_submit():
     return redirect (url_for('quizform', quiz_id=form.quiz_id.data))
   return render_template('getProblems.html', title =  'Get Problems', form = form)

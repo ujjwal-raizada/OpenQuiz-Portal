@@ -119,20 +119,20 @@ class FacultyCourseForm(FlaskForm):
       raise ValidationError('The entered email is not registered')
 
 class CreateQuiz(FlaskForm):
-  course = SelectField('Enter Course',choices = [])
+  course = SelectField('Enter Course', validators = [DataRequired()])
   quiz_name = StringField('Enter Quiz Name', validators = [DataRequired()])
   start_time = DateTimeField("Enter Start Time(Yr-Mt-D Hr:Min:Sec)", format='%Y-%m-%d %H:%M:%S' )
   end_time = DateTimeField("Enter End Time", format='%Y-%m-%d %H:%M:%S' )
   submit = SubmitField('Create Quiz')
 
 class CreateProblem(FlaskForm):
-  quiz_id = StringField('Select Quiz', validators = [DataRequired()])
+  quiz_id = SelectField('Select Quiz', validators = [DataRequired()])
   statement = StringField('Question Statement', validators = [DataRequired()])
   op_1 = StringField('Option 1', validators = [DataRequired()])
   op_2 = StringField('Option 2', validators = [DataRequired()])
   op_3 = StringField('Option 3', validators = [DataRequired()])
   op_4 = StringField('Option 4', validators = [DataRequired()])
-  ans = StringField('Answer', validators = [DataRequired()])
+  ans = SelectField('Answer', choices = [('Option 1','Option 1'), ('Option 2','Option 2'), ('Option 3','Option 3'), ('Option 4','Option 4')], validators = [DataRequired()])
   positive = IntegerField('Marks awarded for correct response', validators = [DataRequired()])
   negative = IntegerField('Marks deducted for incorrect response', validators = [DataRequired()])
   submit = SubmitField('Create Problem')

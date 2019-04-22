@@ -47,7 +47,7 @@ class Faculty:
         query = 'SELECT cid FROM facultycourse WHERE fid=%s;'
         values = (fid,)
 
-        result = execute_query_fetchone(query, values)
+        result = execute_query_fetchall(query, values)
 
         return result
 

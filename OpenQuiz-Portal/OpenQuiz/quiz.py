@@ -86,14 +86,14 @@ class Quiz:
 
         for problem in result:
             p = {
-                'pid': problem[0],
-                'statement': problem[2],
-                'option1': problem[3],
-                'option2': problem[4],
-                'option3': problem[5],
-                'option4': problem[6],
-                'positive': problem[8],
-                'negative': problem[9],
+                'pid': problem['pid'],
+                'statement': problem['statement'],
+                'option1': problem['option1'],
+                'option2': problem['option2'],
+                'option3': problem['option3'],
+                'option4': problem['option4'],
+                'positive': problem['positive'],
+                'negative': problem['negative'],
             }
             problems.append(p)
 
@@ -179,7 +179,7 @@ class Quiz:
     @staticmethod
     def get_faculty_quiz(fid):
 
-        query = 'SELECT cid FROM quiz WHERE fid=%s;'
+        query = 'SELECT qid, cid, qname FROM quiz WHERE fid=%s;'
         values = (fid,)
 
         result = execute_query_fetchall(query, values)
