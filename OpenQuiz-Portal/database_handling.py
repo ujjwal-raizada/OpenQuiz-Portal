@@ -42,17 +42,8 @@ from OpenQuiz.database_operations import get_logs
 # print(Course.insert_faculty_in_course(3, 'CS F211'))
 # print(Course.insert_faculty_in_course(1, 'CS F212'))
 
-print(Quiz.generate_mark_list(1))
+# print(Quiz.generate_mark_list(1))
 
 # print(get_logs())
 
-def dict_to_list(dic):
-
-    l = []
-    for row in dic:
-        t = ()
-        for key in row:
-            t += (row[key],)
-        l.append(t)
-
-    return l 
+print(Quiz.quiz_attempted(1, '2017A7PS1398H'))

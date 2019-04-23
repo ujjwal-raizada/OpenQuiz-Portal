@@ -193,3 +193,14 @@ class Quiz:
         result = execute_query_fetchall(query, values)
         return result
 
+
+    @staticmethod
+    def quiz_attempted(qid, sid):
+
+        marks = Quiz.calculate_marks(sid, qid)
+
+        if (marks == 'Not Attempted.'):
+            return False
+        else:
+            return True
+
