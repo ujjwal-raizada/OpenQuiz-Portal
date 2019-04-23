@@ -1,6 +1,7 @@
 import time
 from .database_operations import execute_query_fetchall, execute_query_fetchone
 from .database_operations import execute_query_get, execute_query_insert, execute_query_many
+from .database_operations import dict_to_list
 
 
 class Quiz:
@@ -141,9 +142,16 @@ class Quiz:
         result1 = execute_query_fetchall(query, values)
 
         # Get the responses
-        query = 'SELECT pid, option FROM response WHERE sid = %s AND qid = %s;'
-        values = (sid, qid)
+        query = 'SELECT pid, option1 FROM response WHERE sid = %s AND qid = %s;'
+        values = (sid, int(qid))
         result2 = execute_query_fetchall(query, values)
+
+        result2 = dict_to_list(result2)
+        result1 = dict_to_list(result1)
+        
+        print(result1)
+        print(result2)
+
 
         # match the answers:
         result1.sort()
@@ -171,8 +179,8 @@ class Quiz:
         quiz_report = []
 
         for student in result:
-            marks = Quiz.calculate_marks(student[0], qid)
-            quiz_report.append((student[0], marks))
+            marks = Quiz.calculate_marks(student['sid'], qid)
+            quiz_report.append((student['sid'], marks))
 
         return quiz_report
 

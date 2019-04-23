@@ -5,10 +5,10 @@ from OpenQuiz.course import Course
 from OpenQuiz.faculty import Faculty
 from OpenQuiz.database_operations import get_logs
 
-print(Student.create_student('2017A7PS1398H', 'Ujjwal Raizada'))
-print(Student.create_student('2017A7PS0277H', 'Satyam Mani'))
-print(Student.create_student('2017A7PS1715H', 'Prakhar Goenka'))
-print(Student.create_student('2017A7PS0218H', 'Daksh Yashlaha'))
+# print(Student.create_student('2017A7PS1398H', 'Ujjwal Raizada'))
+# print(Student.create_student('2017A7PS0277H', 'Satyam Mani'))
+# print(Student.create_student('2017A7PS1715H', 'Prakhar Goenka'))
+# print(Student.create_student('2017A7PS0218H', 'Daksh Yashlaha'))
 
 # print(Faculty.create_faculty('Lov Kumar', 'lov@hyderabad.bits-pilani.ac.in', 'CS'))
 # print(Faculty.create_faculty('T. Ray', 'rayt', 'CS'))
@@ -36,10 +36,23 @@ print(Student.create_student('2017A7PS0218H', 'Daksh Yashlaha'))
 
 # print(Quiz.insert_response(1, '2017A7PS1398H', A))
 
-print(Course.insert_student_in_course('2017A7PS1398H', 'CS F211'))
-print(Course.insert_student_in_course('2017A7PS0277H', 'CS F212'))
+# print(Course.insert_student_in_course('2017A7PS1398H', 'CS F211'))
+# print(Course.insert_student_in_course('2017A7PS0277H', 'CS F212'))
 
-print(Course.insert_faculty_in_course(3, 'CS F211'))
-print(Course.insert_faculty_in_course(1, 'CS F212'))
+# print(Course.insert_faculty_in_course(3, 'CS F211'))
+# print(Course.insert_faculty_in_course(1, 'CS F212'))
+
+print(Quiz.generate_mark_list(1))
 
 # print(get_logs())
+
+def dict_to_list(dic):
+
+    l = []
+    for row in dic:
+        t = ()
+        for key in row:
+            t += (row[key],)
+        l.append(t)
+
+    return l 

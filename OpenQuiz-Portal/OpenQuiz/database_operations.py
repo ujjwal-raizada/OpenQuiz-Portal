@@ -126,3 +126,16 @@ def get_logs():
     query = 'SELECT * FROM logs;'
     result = execute_query_fetchall(query, ())
     return result
+
+
+
+def dict_to_list(dic):
+
+    l = []
+    for row in dic:
+        t = ()
+        for key in row:
+            t += (row[key],)
+        l.append(t)
+
+    return l 
