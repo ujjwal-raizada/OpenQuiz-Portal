@@ -2,7 +2,11 @@
 <h1>Problems for Quiz Id {{quiz_id}}</h1>
 {% for problem in problems %}
 <div>
-    <p>{{problem["pid"]}}{{": "}} {{problem["statement"]}}</p>
+    <p>{{problem['pid']}}{{": "}} {{problem['statement']}}</p>
+    <p>Option1 : {{ problem['option1'] }}</p>
+    <p>Option2 : {{ problem['option2'] }}</p>
+    <p>Option3 : {{ problem['option3'] }}</p>
+    <p>Option4 : {{ problem['option4'] }}</p>
     <br />
     <hr />
 </div>

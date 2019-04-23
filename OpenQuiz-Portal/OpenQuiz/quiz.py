@@ -81,7 +81,7 @@ class Quiz:
         query = 'SELECT * FROM problem WHERE qid = %s;'
         values = (qid,)
         result = execute_query_fetchall(query, values)
-        print(result)
+        # print(result)
         
         problems = []
 
@@ -149,8 +149,8 @@ class Quiz:
         result2 = dict_to_list(result2)
         result1 = dict_to_list(result1)
         
-        print(result1)
-        print(result2)
+        # print(result1)
+        # print(result2)
 
 
         # match the answers:

@@ -1,4 +1,5 @@
 import os
+import datetime
 from OpenQuiz.student import Student
 from OpenQuiz.faculty import Faculty
 from OpenQuiz.quiz import Quiz
@@ -6,8 +7,8 @@ from OpenQuiz.course import Course
 from flask import render_template, flash, redirect, request, url_for
 from app import app, db
 from app.forms import LoginForm, RegistrationFormStudent, RegistrationFormFaculty
-from app.forms import CourseForm, StudentCourseForm, FacultyCourseForm,GetProblems
-from app.forms import CreateProblem, CreateQuiz,QuizForm
+from app.forms import CourseForm, StudentCourseForm, FacultyCourseForm, GetProblems
+from app.forms import CreateProblem, CreateQuiz, QuizForm, GetResult
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -27,7 +28,7 @@ def login():
   if form.validate_on_submit():
     user = User.query.filter_by(email = form.email.data).first()
     if user is None or not user.check_password(form.password.data):
-      flash('Invalid username or password')
+      flash('Invalid email or password')
       return redirect(url_for('login'))
     login_user(user, remember = form.remember_me.data)
     next_page = request.args.get('next')
@@ -90,8 +91,12 @@ def studentcourse():
   form = StudentCourseForm()
   form.course.choices = [(course[0], course[1]) for course in Course.get_all_course()]
   if form.validate_on_submit():
-    Course.insert_student_in_course(current_user.user_id, form.course.data)
-    flash('The student has been successfully enrolled in the course')
+    temp = Course.is_Student_in_course(current_user.user_id, form.course.data)
+    if temp:
+      flash('The student is already enrolled in the course')
+    else:
+      Course.insert_student_in_course(current_user.user_id, form.course.data)
+      flash('The student has been successfully enrolled in the course')
     return redirect(url_for('index'))
   return render_template('studentCourse.html', title = 'Enroll Course', form = form)
 
@@ -120,9 +125,13 @@ def createquiz():
   form = CreateQuiz()
   form.course.choices = [(course['cid'], course['cid']) for course in courses]
 
-  if form.validate_on_submit():    
+  if form.validate_on_submit():  
+    a, b, c, d, e, f = map(int, form.start_time.data.split())
+    start_time = datetime.datetime(a, b, c, d, e, f).timestamp()
+    a, b, c, d, e, f = map(int, form.end_time.data.split())
+    end_time = datetime.datetime(a, b, c, d, e, f).timestamp()
     Quiz.create_quiz(faculty_id, form.course.data, form.quiz_name.data,
-     form.start_time.data, form.end_time.data)
+     start_time, end_time)
     flash('Quiz created successfully')
     return redirect(url_for('index'))
 
@@ -159,8 +168,10 @@ def getproblems():
    for quiz in quizes]
 
   if form.validate_on_submit():
+    # print(Quiz.generate_mark_list(1))
     quiz_id = form.quiz_id.data
     problems = Quiz.get_problems(quiz_id)
+    print(Quiz.get_problems(quiz_id))
     return render_template('problemsList.html', title='Problems of Quiz' + quiz_id,
      quiz_id = quiz_id, problems = problems)
 
@@ -171,12 +182,25 @@ def getproblems():
 def enterquiz():
 
   quizes = Quiz.get_all_quiz()
+  student_quizzes = []
+  for quiz in quizes:
+    if Quiz.is_student_in_quiz(current_user.user_id, quiz[0]):
+      student_quizzes.append(quiz)
 
   form = GetProblems()
-  form.quiz_id.choices = [(str(quiz[0]), quiz[3]) for quiz in quizes]
+  form.quiz_id.choices = [(str(quiz[0]), quiz[3]) for quiz in student_quizzes]
 
   if form.validate_on_submit():
-    return redirect (url_for('quizform', quiz_id=form.quiz_id.data))
+    print(Quiz.quiz_attempted(form.quiz_id.data, current_user.user_id))
+
+    if not Quiz.quiz_status(form.quiz_id.data)[0]:
+      flash(Quiz.quiz_status(form.quiz_id.data)[1])
+
+    if Quiz.quiz_attempted(form.quiz_id.data, current_user.user_id):
+      flash('You have already attempted the quiz')
+      return redirect(url_for('index'))
+    else:
+      return redirect (url_for('quizform', quiz_id=form.quiz_id.data))
 
   return render_template('getProblems.html', title =  'Enter Quiz', form = form)
 
@@ -184,10 +208,10 @@ def enterquiz():
 @login_required
 def quizform(quiz_id):
 
-  student_id = current_user.user_id
-  if (Quiz.is_student_in_quiz(student_id,quiz_id) == False):  # check if quiz id is valid
-     flash('Sorry you have not enrolled for this Quiz!!' )
-     return redirect (url_for('enterquiz'))
+  # student_id = current_user.user_id
+  # if (Quiz.is_student_in_quiz(student_id,quiz_id) == False):  # check if quiz id is valid
+  #    flash('Sorry you have not enrolled for this Quiz!!' )
+  #    return redirect (url_for('enterquiz'))
 
   problems = (Quiz.get_problems(quiz_id))
   return render_template('quiz.html', title = 'Quiz' + quiz_id, problems=problems,
@@ -195,15 +219,15 @@ def quizform(quiz_id):
 
 @app.route('/quiz/<quiz_id>', methods=['POST'])
 @login_required
-def quizforrm(quiz_id):
+def quizforrm(quiz_id): 
 
   d = request.form.to_dict()
   response_list  = [(int(pid),d[pid]) for pid in d]
 
   student_id = current_user.user_id
   Quiz.insert_response(quiz_id, student_id, response_list)
-  
   flash("Successfully submitted your responses")
+
   return redirect('/')
   # submission_status = Quiz.insert_response(quiz_id, student_id, response_list)
   # if(submission_status == True):
@@ -211,3 +235,22 @@ def quizforrm(quiz_id):
   #   return redirect('/')
   # else:
   #   flash("Sorry could not submit your responses")
+
+@app.route('/quiz/result', methods = ['GET', 'POST'])
+@login_required
+def generateresult():
+
+  faculty_id = Faculty.get_faculty_id(current_user.email)[1]
+  quizes = Quiz.get_faculty_quiz(faculty_id)
+  print(quizes)
+
+  form = GetResult()
+  form.quiz_id.choices = [(str(quiz['qid']), quiz['qname']) for quiz in quizes]
+
+  if form.validate_on_submit():
+    results = Quiz.generate_mark_list(form.quiz_id.data)
+    print(results)
+    return render_template('results.html', title = 'Results for quiz ' + form.quiz_id.data, 
+                            form = form, results = results)
+
+  return render_template('getResult.html', title =  'Select Quiz', form = form)

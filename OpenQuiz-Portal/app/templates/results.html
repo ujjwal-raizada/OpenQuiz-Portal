@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %}
+<h1>Result for Quiz Id {{quiz_id}}</h1>
+{% for result in results %}
+<div>
+    <p>{{result[0]}}{{": "}} {{result[1]}}</p>
+    <br />
+    <hr />
+</div>
+{% endfor %} {% endblock %}

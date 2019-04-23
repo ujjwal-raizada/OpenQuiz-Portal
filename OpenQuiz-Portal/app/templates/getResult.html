@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="card my-4" style="width:400px;">
+  <div class="card-header"><h4>Get Results</h4></div>
+  <div class="card-body">
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.quiz_id.label }}<br />
+        {{ form.quiz_id(class="form-control") }}<br />
+        {% for error in form.quiz_id.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <div class="text-center">
+        {{ form.submit() }}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
