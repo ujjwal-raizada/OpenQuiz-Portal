@@ -1,9 +1,23 @@
 {% extends "base.html" %} {% block content %}
-<h1>Result for Quiz Id {{quiz_id}}</h1>
-{% for result in results %}
-<div>
-    <p>{{result[0]}}{{": "}} {{result[1]}}</p>
-    <br />
-    <hr />
+
+<div class="card my-4" style="width: 600px;">
+  <div class="card-header"><h4>Result for Quiz Id {{ quiz_id }}</h4></div>
+	<div class="card-body">
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th>Student Id</th>
+					<th>Result</th>
+				</tr>
+			</thead>
+				  {% for result in results %}
+			<tr>
+			    <td>{{result[0]}} </td>
+			    <td>{{result[1]}}</td>
+			</tr>
+		</table>
+	</div>
 </div>
+
+
 {% endfor %} {% endblock %}

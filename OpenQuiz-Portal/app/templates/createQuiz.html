@@ -1,37 +1,45 @@
 {% extends "base.html" %} {% block content %}
-<h1>Create Quiz</h1>
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.course.label }}<br />
-    {{ form.course }}<br />
-    {% for error in form.course.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.quiz_name.label }}<br />
-    {{ form.quiz_name(size=32) }}<br />
-    {% for error in form.quiz_name.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.start_time.label }}<br />
-    {{ form.start_time(size=32) }}<br />
-    {% for error in form.start_time.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.end_time.label }}<br />
-    {{ form.end_time(size=32) }}<br />
-    {% for error in form.end_time.errors %}
-    <span style="color : red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.submit() }}
-  </p>
-</form>
+
+<div class="card my-4" style="width: 600px;">
+  <div class="card-header"><h4>Create Quiz</h4></div>
+  <div class="card-body">
+     <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.course.label }}<br />
+        {{ form.course(class_="form-control") }}<br />
+        {% for error in form.course.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.quiz_name.label }}<br />
+        {{ form.quiz_name(size=32,class_="form-control") }}<br />
+        {% for error in form.quiz_name.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.start_time.label }}<br />
+        {{ form.start_time(size=32,class_="form-control") }}<br />
+        {% for error in form.start_time.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.end_time.label }}<br />
+        {{ form.end_time(size=32,class_="form-control") }}<br />
+        {% for error in form.end_time.errors %}
+        <span style="color : red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <div class="text-center">
+        {{ form.submit() }}
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
 {% endblock %}

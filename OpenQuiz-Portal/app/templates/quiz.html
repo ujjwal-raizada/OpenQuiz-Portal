@@ -1,23 +1,49 @@
 {% extends "base.html" %} {% block content %}
-<h1>Problems for Quiz {{quiz_id}}</h1>
-<form action="" method="post">
+
+<div class="card my-4" style="width:800px;">
+  <div class="card-header"><h4>Problems for Quiz {{quiz_id}}</h4></div>
+  <div class="card-body">
+    <form action="" method="post">
     {% for problem in problems %}
     <div>
         <p>{{problem.statement}}</p>
-        <p><input type="radio" name="{{problem.pid}}" value="A" size="100"/>
-        {{problem.option1}}</p>
-        <p><input type="radio" name="{{problem.pid}}" value="B" size="100"/>
-        {{problem.option2}}</p>
-        <p><input type="radio" name="{{problem.pid}}" value="C" size="100"/>
-        {{problem.option3}}</p>
-        <p><input type="radio" name="{{problem.pid}}" value="D" size="100"/>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-sm-6">
+                    <p><input type="radio" name="{{problem.pid}}" value="A" size="100"/>
+                        {{problem.option1}}
+                    </p>
+                    <p><input type="radio" name="{{problem.pid}}" value="B" size="100"/>
+                        {{problem.option2}}
+                    </p>
+                    <p><input type="radio" name="{{problem.pid}}" value="C" size="100"/>
+                        {{problem.option3}}
+                    </p>
+                </div>
+                <div class="col col-sm-6">
+                    <p><input type="radio" name="{{problem.pid}}" value="D" size="100"/>
         {{problem.option4}}</p>
-        <p><input type="radio" name="{{problem.pid}}" value="E" size="100"/>
+        <p><input type="radio" name="{{problem.pid}}" value="E" size="100" checked/>
         {{"Leave Question"}}</p>
         <br />
+                </div>
+            </div>
+        </div>
+
+        
         <hr />
+
     </div>
     {% endfor %}
-    <input type="submit" />
+    <div class="text-center">
+        <input type="submit" />
+    </div>
 </form>
+</div>
+
+</div>
+
+
+
 {% endblock %}
